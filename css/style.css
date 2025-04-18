@@ -137,3 +137,14 @@ button#draw-button:hover {
   font-weight: bold;
   color: #112656;
 }
+
+.sound-toggle {
+  display: inline-block;
+  font-size: 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+.sound-toggle input {
+  margin-right: 0.5rem;
+}
