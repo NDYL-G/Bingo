@@ -68,16 +68,18 @@ function drawBall() {
 
   // 🔊 Play appropriate sound
   if (soundEnabled) {
-    if (number === 2) {
-      sounds.quack.play();
-    } else if (number === 22) {
-      sounds.quack.play();
-      sounds.quack.play();
-    } else if (number === 11) {
-      sounds.whistle.play();
-    } else {
-      sounds.marble.play();
-    }
+  if (number === 2) {
+    sounds.quack.play();
+  } else if (number === 22) {
+    // Create two clones for overlapping quacks
+    const quack1 = sounds.quack.cloneNode();
+    const quack2 = sounds.quack.cloneNode();
+    quack1.play();
+    setTimeout(() => quack2.play(), 300); // small delay between quacks
+  } else if (number === 11) {
+    sounds.whistle.play();
+  } else {
+    sounds.marble.play();
   }
 }
 
