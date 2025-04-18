@@ -13,11 +13,11 @@ function drawBall() {
   const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
   const number = remainingNumbers.splice(randomIndex, 1)[0];
 
-  const ball = createBallSVG(number);
-
-  // 💥 Make the new ball throb and remove the old throbs
+  // Remove throb class from any previously throbbing balls
   document.querySelectorAll('.throb').forEach(el => el.classList.remove('throb'));
-  ball.classList.add('throb');
+
+  const ball = createBallSVG(number);
+  ball.classList.add('throb'); // Add throb to newly drawn ball
 
   // Add to correct column
   const columnIndex = Math.floor((number - 1) / 10);
@@ -25,7 +25,9 @@ function drawBall() {
   column.appendChild(ball);
 
   // Update last 6 balls
-  updateLastBalls(ball.cloneNode(true));
+  const lastBallClone = ball.cloneNode(true);
+  lastBallClone.classList.add('throb'); // Apply throb to clone as well
+  updateLastBalls(lastBallClone);
 }
 
 function createBallSVG(number) {
@@ -73,7 +75,7 @@ function createBallSVG(number) {
   circle.setAttribute("stroke", "#333");
   circle.setAttribute("stroke-width", "2");
 
-  // Text
+  // Number
   const text = document.createElementNS(svgNS, "text");
   text.setAttribute("x", "50%");
   text.setAttribute("y", "50%");
@@ -84,11 +86,9 @@ function createBallSVG(number) {
   text.setAttribute("fill", "#112656");
   text.textContent = number;
 
-  // Combine and animate
   svg.appendChild(circle);
   svg.appendChild(text);
   svg.classList.add("bingo-ball");
-
   return svg;
 }
 
@@ -96,14 +96,12 @@ function updateLastBalls(ballSVG) {
   lastBalls.unshift(ballSVG);
   if (lastBalls.length > 6) lastBalls.pop();
 
-  // Add throb to first one only
+  const recentContainer = document.getElementById("recent-balls");
+  recentContainer.innerHTML = "";
+
   lastBalls.forEach((ball, index) => {
     ball.classList.remove('throb');
     if (index === 0) ball.classList.add('throb');
+    recentContainer.appendChild(ball);
   });
-
-  const recentContainer = document.getElementById("recent-balls");
-  recentContainer.innerHTML = "";
-  lastBalls.forEach(ball => recentContainer.appendChild(ball));
 }
-
