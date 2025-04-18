@@ -68,7 +68,10 @@ function drawBall() {
 
   // 🔊 Play appropriate sound
   if (soundEnabled) {
-    if (number === 22) {
+    if (number === 2) {
+      sounds.quack.play();
+    } else if (number === 22) {
+      sounds.quack.play();
       sounds.quack.play();
     } else if (number === 11) {
       sounds.whistle.play();
