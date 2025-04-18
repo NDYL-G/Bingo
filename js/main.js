@@ -1,3 +1,29 @@
+const allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
+let remainingNumbers = [...allNumbers];
+let lastBalls = [];
+
+document.getElementById("draw-button").addEventListener("click", drawBall);
+
+function drawBall() {
+  if (remainingNumbers.length === 0) {
+    alert("All balls have been drawn!");
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
+  const number = remainingNumbers.splice(randomIndex, 1)[0];
+
+  const ball = createBallSVG(number);
+
+  // Add to correct column
+  const columnIndex = Math.floor((number - 1) / 10);
+  const column = document.querySelectorAll(".column")[columnIndex];
+  column.appendChild(ball);
+
+  // Update last 6 balls
+  updateLastBalls(ball.cloneNode(true));
+}
+
 function createBallSVG(number) {
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
@@ -11,7 +37,7 @@ function createBallSVG(number) {
   ];
   const fillColor = pastelColors[columnIndex];
 
-  // Define gradient ID
+  // Define gradient
   const gradientId = `grad-${number}`;
   const defs = document.createElementNS(svgNS, "defs");
   const radialGradient = document.createElementNS(svgNS, "radialGradient");
@@ -34,7 +60,7 @@ function createBallSVG(number) {
   defs.appendChild(radialGradient);
   svg.appendChild(defs);
 
-  // Circle with gradient fill
+  // Ball circle
   const circle = document.createElementNS(svgNS, "circle");
   circle.setAttribute("cx", "30");
   circle.setAttribute("cy", "30");
@@ -43,7 +69,7 @@ function createBallSVG(number) {
   circle.setAttribute("stroke", "#333");
   circle.setAttribute("stroke-width", "2");
 
-  // Text (number)
+  // Text
   const text = document.createElementNS(svgNS, "text");
   text.setAttribute("x", "50%");
   text.setAttribute("y", "50%");
@@ -54,7 +80,19 @@ function createBallSVG(number) {
   text.setAttribute("fill", "#112656");
   text.textContent = number;
 
+  // Combine and animate
   svg.appendChild(circle);
   svg.appendChild(text);
+  svg.classList.add("bingo-ball");
+
   return svg;
+}
+
+function updateLastBalls(ballSVG) {
+  lastBalls.unshift(ballSVG);
+  if (lastBalls.length > 6) lastBalls.pop();
+
+  const recentContainer = document.getElementById("recent-balls");
+  recentContainer.innerHTML = "";
+  lastBalls.forEach(ball => recentContainer.appendChild(ball));
 }
