@@ -96,7 +96,14 @@ function updateLastBalls(ballSVG) {
   lastBalls.unshift(ballSVG);
   if (lastBalls.length > 6) lastBalls.pop();
 
+  // Add throb to first one only
+  lastBalls.forEach((ball, index) => {
+    ball.classList.remove('throb');
+    if (index === 0) ball.classList.add('throb');
+  });
+
   const recentContainer = document.getElementById("recent-balls");
   recentContainer.innerHTML = "";
   lastBalls.forEach(ball => recentContainer.appendChild(ball));
 }
+
