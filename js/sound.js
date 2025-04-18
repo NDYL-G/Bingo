@@ -1,9 +1,3 @@
-const sounds = {
-  marble: new Audio("sounds/marble.mp3"),
-  quack: new Audio("sounds/quack.mp3"),
-  whistle: new Audio("sounds/whistle.mp3")
-};
-
 let soundEnabled = true;
 
 export function setupSoundToggle() {
@@ -20,15 +14,15 @@ export function playSoundForNumber(number) {
   if (!soundEnabled) return;
 
   if (number === 2) {
-    sounds.quack.play();
+    new Audio("sounds/quack.mp3").play();
   } else if (number === 22) {
-    const quack1 = sounds.quack.cloneNode();
-    const quack2 = sounds.quack.cloneNode();
+    const quack1 = new Audio("sounds/quack.mp3");
+    const quack2 = new Audio("sounds/quack.mp3");
     quack1.play();
     setTimeout(() => quack2.play(), 300);
   } else if (number === 11) {
-    sounds.whistle.play();
+    new Audio("sounds/whistle.mp3").play();
   } else {
-    sounds.marble.play();
+    new Audio("sounds/marble.mp3").play();
   }
 }
