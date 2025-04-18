@@ -5,7 +5,7 @@ let lastBalls = [];
 const board = document.getElementById("bingo-board");
 const placeholderMap = new Map();
 
-// 🎯 Create 90 placeholders in a grid
+// ✅ Create 90 placeholders top-to-bottom in columns (1–10, 11–20, ..., 81–90)
 for (let col = 0; col < 9; col++) {
   for (let row = 0; row < 10; row++) {
     const number = col * 10 + row + 1;
@@ -19,7 +19,7 @@ for (let col = 0; col < 9; col++) {
   }
 }
 
-// 🎯 Button click to draw a ball
+// ✅ Draw ball on button click
 document.getElementById("draw-button").addEventListener("click", drawBall);
 
 function drawBall() {
@@ -31,18 +31,18 @@ function drawBall() {
   const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
   const number = remainingNumbers.splice(randomIndex, 1)[0];
 
-  // Remove throb class from all previous
+  // Remove .throb from any previous balls
   document.querySelectorAll('.throb').forEach(el => el.classList.remove('throb'));
 
   const ball = createBallSVG(number);
   ball.classList.add('throb');
 
-  // Replace placeholder with the animated ball
+  // Replace the grey placeholder with the animated ball
   const placeholder = placeholderMap.get(number);
   placeholder.replaceWith(ball);
-  placeholderMap.set(number, ball); // Optional
+  placeholderMap.set(number, ball);
 
-  // Clone for last 6 section
+  // Clone for last 6 list and apply throb
   const lastBallClone = ball.cloneNode(true);
   lastBallClone.classList.add('throb');
   updateLastBalls(lastBallClone);
@@ -61,6 +61,7 @@ function createBallSVG(number) {
   ];
   const fillColor = pastelColors[columnIndex];
 
+  // Create shine gradient
   const gradientId = `grad-${number}`;
   const defs = document.createElementNS(svgNS, "defs");
   const radialGradient = document.createElementNS(svgNS, "radialGradient");
@@ -83,6 +84,7 @@ function createBallSVG(number) {
   defs.appendChild(radialGradient);
   svg.appendChild(defs);
 
+  // Circle
   const circle = document.createElementNS(svgNS, "circle");
   circle.setAttribute("cx", "30");
   circle.setAttribute("cy", "30");
@@ -91,6 +93,7 @@ function createBallSVG(number) {
   circle.setAttribute("stroke", "#333");
   circle.setAttribute("stroke-width", "2");
 
+  // Number text
   const text = document.createElementNS(svgNS, "text");
   text.setAttribute("x", "50%");
   text.setAttribute("y", "50%");
