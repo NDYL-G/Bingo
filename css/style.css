@@ -132,7 +132,7 @@ button#draw-button:hover {
 
 /* Nickname display */
 #bingo-nickname {
-  margin-top: 1rem;
+  margin-top: 3rem;
   font-size: 1.2rem;
   font-weight: bold;
   color: #112656;
