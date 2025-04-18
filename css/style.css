@@ -46,3 +46,26 @@
   gap: 0.5rem;
   padding: 0.5rem;
 }
+#bingo-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 0.4rem;
+  justify-items: center;
+  padding: 1rem 0;
+}
+
+.placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ddd;
+  color: #999;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: all 0.3s ease;
+}
