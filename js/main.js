@@ -15,6 +15,10 @@ function drawBall() {
 
   const ball = createBallSVG(number);
 
+  // 💥 Make the new ball throb and remove the old throbs
+  document.querySelectorAll('.throb').forEach(el => el.classList.remove('throb'));
+  ball.classList.add('throb');
+
   // Add to correct column
   const columnIndex = Math.floor((number - 1) / 10);
   const column = document.querySelectorAll(".column")[columnIndex];
