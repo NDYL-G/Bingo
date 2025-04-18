@@ -5,18 +5,13 @@ let lastBalls = [];
 const board = document.getElementById("bingo-board");
 const placeholderMap = new Map();
 
-// ✅ Create 90 placeholders top-to-bottom in columns (1–10, 11–20, ..., 81–90)
-for (let col = 0; col < 9; col++) {
-  for (let row = 0; row < 10; row++) {
-    const number = col * 10 + row + 1;
-    if (number > 90) continue;
-
-    const div = document.createElement("div");
-    div.classList.add("placeholder");
-    div.textContent = number;
-    board.appendChild(div);
-    placeholderMap.set(number, div);
-  }
+// ✅ Generate numbers 1–90 laid out row by row, 10 per row
+for (let i = 1; i <= 90; i++) {
+  const div = document.createElement("div");
+  div.classList.add("placeholder");
+  div.textContent = i;
+  board.appendChild(div);
+  placeholderMap.set(i, div);
 }
 
 // ✅ Draw ball on button click
