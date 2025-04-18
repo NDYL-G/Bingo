@@ -6,7 +6,7 @@ let soundEnabled = true;
 
 // 🔊 Load sound files
 const sounds = {
-  marble: new Audio("sounds/marble.mp3"),
+  marble: new Audio("sounds/bouncing-ball.mp3"),
   quack: new Audio("sounds/quack.mp3"),
   whistle: new Audio("sounds/whistle.mp3")
 };
