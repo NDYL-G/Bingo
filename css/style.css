@@ -1,4 +1,4 @@
-/* Corporate colours (for general use if needed)
+/* Corporate colours
    #FD9803 - Vivid orange
    #112656 - Very dark blue
 */
@@ -17,7 +17,7 @@ body {
 .container {
   text-align: center;
   padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -31,6 +31,21 @@ header .logo {
 h1 {
   color: #FD9803;
   margin-bottom: 1rem;
+}
+
+button#draw-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #FD9803;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+button#draw-button:hover {
+  background-color: #e68602;
 }
 
 .card {
@@ -49,7 +64,7 @@ h1 {
   gap: 0.8rem;
 }
 
-/* Bingo grid (9 columns x 10 rows) */
+/* Grid of 90 numbers: 10 columns */
 #bingo-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -58,7 +73,7 @@ h1 {
   padding: 1rem 0;
 }
 
-/* Grey placeholder before balls are drawn */
+/* Grey placeholder before a ball is drawn */
 .placeholder {
   width: 60px;
   height: 60px;
@@ -113,4 +128,12 @@ h1 {
 .throb {
   animation: throb 1s ease-in-out infinite;
   will-change: transform, filter;
+}
+
+/* Nickname display */
+#bingo-nickname {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #112656;
 }
