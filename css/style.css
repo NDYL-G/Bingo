@@ -1,4 +1,81 @@
-/* Bingo Ball Animations */
+/* Corporate colours (for general use if needed)
+   #FD9803 - Vivid orange
+   #112656 - Very dark blue
+*/
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #112656;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+header .logo {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  color: #FD9803;
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin: 2rem 0;
+  padding: 1rem;
+  border-top: 4px solid #FD9803;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+}
+
+.card-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+/* Bingo grid (9 columns x 10 rows) */
+#bingo-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 0.5rem;
+  justify-items: center;
+  padding: 1rem 0;
+}
+
+/* Grey placeholder before balls are drawn */
+.placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ddd;
+  color: #999;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+/* Bingo ball animations */
 @keyframes popBounce {
   0% {
     transform: scale(0.4);
@@ -36,36 +113,4 @@
 .throb {
   animation: throb 1s ease-in-out infinite;
   will-change: transform, filter;
-}
-
-/* Column styling for bingo board */
-.column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-}
-#bingo-board {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 0.4rem;
-  justify-items: center;
-  padding: 1rem 0;
-}
-
-.placeholder {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #ddd;
-  color: #999;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  transition: all 0.3s ease;
 }
