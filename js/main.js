@@ -1,12 +1,25 @@
 const allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
 let remainingNumbers = [...allNumbers];
 let lastBalls = [];
-let bingoNicknames = {}; // Loaded dynamically from JSON
+let bingoNicknames = {}; // Loaded from JSON
+let soundEnabled = true;
+
+// 🔊 Load sound files
+const sounds = {
+  marble: new Audio("sounds/marble.mp3"),
+  quack: new Audio("sounds/quack.mp3"),
+  whistle: new Audio("sounds/whistle.mp3")
+};
+
+// 🎚️ Toggle sound checkbox
+document.getElementById("sound-toggle").addEventListener("change", (e) => {
+  soundEnabled = e.target.checked;
+});
 
 const board = document.getElementById("bingo-board");
 const placeholderMap = new Map();
 
-// ✅ Generate placeholders: 10 per row, 90 total
+// 🔢 Generate 90 placeholders (row by row, 10 per row)
 for (let i = 1; i <= 90; i++) {
   const div = document.createElement("div");
   div.classList.add("placeholder");
@@ -15,7 +28,7 @@ for (let i = 1; i <= 90; i++) {
   placeholderMap.set(i, div);
 }
 
-// ✅ Load nicknames from JSON file
+// 📥 Load nicknames from JSON
 fetch('data/uk-bingo-nicknames.json')
   .then(res => res.json())
   .then(data => {
@@ -25,7 +38,7 @@ fetch('data/uk-bingo-nicknames.json')
     console.error("Failed to load nickname data:", err);
   });
 
-// ✅ Handle "Draw Ball" button
+// ▶️ Draw a ball
 document.getElementById("draw-button").addEventListener("click", drawBall);
 
 function drawBall() {
@@ -37,21 +50,32 @@ function drawBall() {
   const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
   const number = remainingNumbers.splice(randomIndex, 1)[0];
 
-  // Remove .throb from any existing balls
+  // 🧼 Remove previous throbs
   document.querySelectorAll('.throb').forEach(el => el.classList.remove('throb'));
 
   const ball = createBallSVG(number);
   ball.classList.add('throb');
 
-  // Replace placeholder
+  // 🧩 Replace placeholder with SVG
   const placeholder = placeholderMap.get(number);
   placeholder.replaceWith(ball);
   placeholderMap.set(number, ball);
 
-  // Clone ball for last-6 display
+  // 🧪 Clone for last 6
   const lastBallClone = ball.cloneNode(true);
   lastBallClone.classList.add('throb');
   updateLastBalls(lastBallClone, number);
+
+  // 🔊 Play appropriate sound
+  if (soundEnabled) {
+    if (number === 22) {
+      sounds.quack.play();
+    } else if (number === 11) {
+      sounds.whistle.play();
+    } else {
+      sounds.marble.play();
+    }
+  }
 }
 
 function createBallSVG(number) {
@@ -126,7 +150,7 @@ function updateLastBalls(ballSVG, number) {
     recentContainer.appendChild(ball);
   });
 
-  // ✅ Show nickname for last ball
+  // 🗣️ Show nickname
   const nicknameDiv = document.getElementById("bingo-nickname");
   const nickname = bingoNicknames[number] || "";
   nicknameDiv.textContent = nickname ? `${number}: ${nickname}` : "";
