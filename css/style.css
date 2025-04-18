@@ -104,3 +104,22 @@ h1 {
 #sun-times div {
   font-weight: bold;
 }
+
+@keyframes popBounce {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bingo-ball {
+  animation: popBounce 0.4s ease-out;
+}
+
