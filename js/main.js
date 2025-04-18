@@ -5,7 +5,7 @@ let lastBalls = [];
 const board = document.getElementById("bingo-board");
 const placeholderMap = new Map();
 
-// ✅ Generate numbers 1–90 laid out row by row, 10 per row
+// ✅ Generate placeholders: 10 per row, numbers 1–90
 for (let i = 1; i <= 90; i++) {
   const div = document.createElement("div");
   div.classList.add("placeholder");
@@ -14,7 +14,7 @@ for (let i = 1; i <= 90; i++) {
   placeholderMap.set(i, div);
 }
 
-// ✅ Draw ball on button click
+// ✅ Handle Draw Ball button
 document.getElementById("draw-button").addEventListener("click", drawBall);
 
 function drawBall() {
@@ -26,7 +26,7 @@ function drawBall() {
   const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
   const number = remainingNumbers.splice(randomIndex, 1)[0];
 
-  // Remove .throb from any previous balls
+  // Remove .throb from any existing balls
   document.querySelectorAll('.throb').forEach(el => el.classList.remove('throb'));
 
   const ball = createBallSVG(number);
@@ -37,7 +37,7 @@ function drawBall() {
   placeholder.replaceWith(ball);
   placeholderMap.set(number, ball);
 
-  // Clone for last 6 list and apply throb
+  // Clone for last-6 list and apply throb
   const lastBallClone = ball.cloneNode(true);
   lastBallClone.classList.add('throb');
   updateLastBalls(lastBallClone);
@@ -56,7 +56,6 @@ function createBallSVG(number) {
   ];
   const fillColor = pastelColors[columnIndex];
 
-  // Create shine gradient
   const gradientId = `grad-${number}`;
   const defs = document.createElementNS(svgNS, "defs");
   const radialGradient = document.createElementNS(svgNS, "radialGradient");
@@ -79,7 +78,7 @@ function createBallSVG(number) {
   defs.appendChild(radialGradient);
   svg.appendChild(defs);
 
-  // Circle
+  // Ball circle
   const circle = document.createElementNS(svgNS, "circle");
   circle.setAttribute("cx", "30");
   circle.setAttribute("cy", "30");
@@ -88,7 +87,7 @@ function createBallSVG(number) {
   circle.setAttribute("stroke", "#333");
   circle.setAttribute("stroke-width", "2");
 
-  // Number text
+  // Text number
   const text = document.createElementNS(svgNS, "text");
   text.setAttribute("x", "50%");
   text.setAttribute("y", "50%");
