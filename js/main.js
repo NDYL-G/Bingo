@@ -1,11 +1,12 @@
 const allNumbers = Array.from({ length: 90 }, (_, i) => i + 1);
 let remainingNumbers = [...allNumbers];
 let lastBalls = [];
+let bingoNicknames = {}; // Loaded dynamically from JSON
 
 const board = document.getElementById("bingo-board");
 const placeholderMap = new Map();
 
-// ✅ Generate placeholders: 10 per row, numbers 1–90
+// ✅ Generate placeholders: 10 per row, 90 total
 for (let i = 1; i <= 90; i++) {
   const div = document.createElement("div");
   div.classList.add("placeholder");
@@ -14,7 +15,17 @@ for (let i = 1; i <= 90; i++) {
   placeholderMap.set(i, div);
 }
 
-// ✅ Handle Draw Ball button
+// ✅ Load nicknames from JSON file
+fetch('data/uk-bingo-nicknames.json')
+  .then(res => res.json())
+  .then(data => {
+    bingoNicknames = data;
+  })
+  .catch(err => {
+    console.error("Failed to load nickname data:", err);
+  });
+
+// ✅ Handle "Draw Ball" button
 document.getElementById("draw-button").addEventListener("click", drawBall);
 
 function drawBall() {
@@ -32,15 +43,15 @@ function drawBall() {
   const ball = createBallSVG(number);
   ball.classList.add('throb');
 
-  // Replace the grey placeholder with the animated ball
+  // Replace placeholder
   const placeholder = placeholderMap.get(number);
   placeholder.replaceWith(ball);
   placeholderMap.set(number, ball);
 
-  // Clone for last-6 list and apply throb
+  // Clone ball for last-6 display
   const lastBallClone = ball.cloneNode(true);
   lastBallClone.classList.add('throb');
-  updateLastBalls(lastBallClone);
+  updateLastBalls(lastBallClone, number);
 }
 
 function createBallSVG(number) {
@@ -78,7 +89,6 @@ function createBallSVG(number) {
   defs.appendChild(radialGradient);
   svg.appendChild(defs);
 
-  // Ball circle
   const circle = document.createElementNS(svgNS, "circle");
   circle.setAttribute("cx", "30");
   circle.setAttribute("cy", "30");
@@ -87,7 +97,6 @@ function createBallSVG(number) {
   circle.setAttribute("stroke", "#333");
   circle.setAttribute("stroke-width", "2");
 
-  // Text number
   const text = document.createElementNS(svgNS, "text");
   text.setAttribute("x", "50%");
   text.setAttribute("y", "50%");
@@ -104,7 +113,7 @@ function createBallSVG(number) {
   return svg;
 }
 
-function updateLastBalls(ballSVG) {
+function updateLastBalls(ballSVG, number) {
   lastBalls.unshift(ballSVG);
   if (lastBalls.length > 6) lastBalls.pop();
 
@@ -116,4 +125,9 @@ function updateLastBalls(ballSVG) {
     if (index === 0) ball.classList.add('throb');
     recentContainer.appendChild(ball);
   });
+
+  // ✅ Show nickname for last ball
+  const nicknameDiv = document.getElementById("bingo-nickname");
+  const nickname = bingoNicknames[number] || "";
+  nicknameDiv.textContent = nickname ? `${number}: ${nickname}` : "";
 }
